@@ -19,13 +19,15 @@ class DetailFragment : Fragment() {
         val bundle:DetailFragmentArgs by navArgs()
 
         val gelenEded = bundle.eded
-        val gelenString = bundle.test
 
-        Log.e("Gelen reqem", gelenEded.toString())
-        Log.e("Gelen string",gelenString)
+//        Log.d("Gelen reqem", gelenEded.toString())
+
+        Toast.makeText(context, gelenEded.toString(), Toast.LENGTH_SHORT).show()
+
+        binding.etTitle.text = gelenEded.toString()
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        return binding.root
     }
 
 }

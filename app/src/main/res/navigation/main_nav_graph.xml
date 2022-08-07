@@ -22,10 +22,6 @@
         <argument
             android:name="eded"
             app:argType="integer"
-            android:defaultValue="5" />
-        <argument
-            android:name="test"
-            app:argType="string"
-            android:defaultValue="yoxlama" />
+            android:defaultValue="15" />
     </fragment>
 </navigation>
