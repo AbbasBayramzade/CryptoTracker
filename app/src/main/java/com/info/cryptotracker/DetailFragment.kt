@@ -22,7 +22,7 @@ class DetailFragment : Fragment() {
 
 //        Log.d("Gelen reqem", gelenEded.toString())
 
-        Toast.makeText(context, gelenEded.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "data sending : $gelenEded", Toast.LENGTH_LONG).show()
 
         binding.etTitle.text = gelenEded.toString()
 
