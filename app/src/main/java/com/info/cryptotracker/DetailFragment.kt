@@ -20,8 +20,6 @@ class DetailFragment : Fragment() {
 
         val gelenEded = bundle.eded
 
-//        Log.d("Gelen reqem", gelenEded.toString())
-
         Toast.makeText(context, "data sending : $gelenEded", Toast.LENGTH_LONG).show()
 
         binding.etTitle.text = gelenEded.toString()
