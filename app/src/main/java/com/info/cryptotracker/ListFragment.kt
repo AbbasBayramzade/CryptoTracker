@@ -2,21 +2,28 @@ package com.info.cryptotracker
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.info.cryptotracker.databinding.FragmentListBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(){
     private lateinit var binding: FragmentListBinding
 
     private var listCryptos:MutableList<CryptosItem> = mutableListOf<CryptosItem>()
     private val adapter:CryptosAdapter by lazy{CryptosAdapter(requireContext(),listCryptos)}
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View? {
         binding = FragmentListBinding.inflate(inflater,container,false)
@@ -25,13 +32,29 @@ class ListFragment : Fragment() {
         binding.rvMain.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMain.adapter = adapter
 
-
-
         getCryptosData()
+
+        showData(listCryptos)
 
         // Inflate the layout for this fragment
         return binding.root
 
+    }
+
+    fun showData(list: List<CryptosItem>){
+
+
+        var action:NavDirections
+
+
+
+
+        adapter.onItemClick = { contact ->
+
+            // do something with your item
+            Log.d("TAG", contact.name)
+
+        }
     }
 
     private fun getCryptosData(){

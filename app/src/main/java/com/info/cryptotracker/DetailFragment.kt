@@ -8,24 +8,58 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.info.cryptotracker.databinding.FragmentDetailBinding
+import com.info.cryptotracker.databinding.FragmentListBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
 
+    private var listCryptos:MutableList<CryptosItem> = mutableListOf<CryptosItem>()
+    private val adapter:CryptosAdapter by lazy{CryptosAdapter(requireContext(),listCryptos)}
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View? {
-        binding = FragmentDetailBinding.inflate(inflater,container,false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
 
-        val bundle:DetailFragmentArgs by navArgs()
+        listCryptos = mutableListOf()
+        binding.rvDetail.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDetail.adapter = adapter
 
-        val gelenEded = bundle.eded
 
-        Toast.makeText(context, "data sending : $gelenEded", Toast.LENGTH_LONG).show()
 
-        binding.etTitle.text = gelenEded.toString()
+        getCryptosData()
 
         // Inflate the layout for this fragment
         return binding.root
+
+    }
+
+    private fun getCryptosData(){
+
+        ApiClient.apiService.getCryptos().enqueue(object : Callback<List<CryptosItem>> {
+
+            override fun onFailure(call: Call<List<CryptosItem>>, t: Throwable) {
+                t.localizedMessage?.let { Log.e("error", it) }
+            }
+
+            override fun onResponse(
+                call: Call<List<CryptosItem>>,
+                response: Response<List<CryptosItem>>
+            ) {
+                val CryptosResponse = response.body()
+                listCryptos.clear()
+                CryptosResponse?.let {
+                    listCryptos.addAll(it)
+
+                    adapter.notifyDataSetChanged()
+                }
+            }
+
+        })
+
     }
 
 }

@@ -18,10 +18,5 @@
         android:id="@+id/detailFragment"
         android:name="com.info.cryptotracker.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
-        <argument
-            android:name="eded"
-            app:argType="integer"
-            android:defaultValue="15" />
-    </fragment>
+        tools:layout="@layout/fragment_detail" />
 </navigation>
