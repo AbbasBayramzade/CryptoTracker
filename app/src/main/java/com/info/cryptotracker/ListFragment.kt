@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.info.cryptotracker.databinding.FragmentListBinding
@@ -18,11 +20,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListFragment : Fragment(){
+class ListFragment : Fragment(), CryptosAdapter.OnItemSelectedListener {
     private lateinit var binding: FragmentListBinding
 
     private var listCryptos:MutableList<CryptosItem> = mutableListOf<CryptosItem>()
-    private val adapter:CryptosAdapter by lazy{CryptosAdapter(requireContext(),listCryptos)}
+    private val adapter:CryptosAdapter by lazy{CryptosAdapter(this, requireContext(),listCryptos)}
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View? {
@@ -43,18 +45,15 @@ class ListFragment : Fragment(){
 
     fun showData(list: List<CryptosItem>){
 
-
-        var action:NavDirections
-
-
-
-
-        adapter.onItemClick = { contact ->
+       /* adapter.onItemClick = { contact ->
 
             // do something with your item
-            Log.d("TAG", contact.name)
+            d("TAG", contact.name)
 
-        }
+//            val kecis = ListFragmentDirections.actionListFragmentToDetailFragment()
+//            view?.let { Navigation.findNavController(it).navigate(kecis) }
+
+        }*/
     }
 
     private fun getCryptosData(){
@@ -79,6 +78,11 @@ class ListFragment : Fragment(){
 
         })
 
+    }
+
+    override fun onSelect(id: String) {
+        findNavController().navigate(ListFragmentDirections.actionListFragmentToDetailFragment(id))
+//        Toast.makeText(requireContext(), id, LENGTH_SHORT).show()
     }
 
 }
